@@ -1,11 +1,11 @@
 :root {
     /* LIGHT MODE */
-    --bg-page: #ffffff;
+    --bg-page: #121212;
     --bg-content: #ffffff;
-    --bg-navbar: rgb(193, 244, 255);
+    --bg-navbar: #3b82f6;
     --bg-table-header: #f0f0f0;
     --bg-card: #ffffff;
-    --text-main: #000000;
+    --text-main: #1e293b;
     --text-muted: #555555;
     --border-color: #cccccc;
     --input-bg: #ffffff;
@@ -19,18 +19,18 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* DARK MODE */
-        --bg-page: #121212;
-        --bg-content: #1e1e1e;
-        --bg-navbar: #001a33;
-        --bg-table-header: #2d2d2d;
-        --bg-card: #252525;
-        --text-main: #e0e0e0;
-        --text-muted: #bbbbbb;
-        --border-color: #444444;
-        --input-bg: #2d2d2d;
-        --modal-overlay: rgba(0, 0, 0, 0.8);
-        --accent-blue: #4d66ff;
-        --dragdrop-background: #6c9fff;
+        --bg-page: #0f172a;
+        --bg-content: rgb(30 41 59 / var(--tw-bg-opacity, 1));
+        --bg-navbar: #0f172acc;
+        --bg-table-header: ;
+        --bg-card: ;
+        --text-main: rgb(255 255 255 / var(--tw-text-opacity, 1));
+        --text-muted: ;
+        --border-color: rgb(51 65 85 / var(--tw-border-opacity, 1));
+        --input-bg: var(--bg-content);
+        --modal-overlay: ;
+        --accent-blue: rgb(59 130 246 / var(--tw-bg-opacity, 1));
+        --dragdrop-background: ;
     }
 }
 
