@@ -4,12 +4,14 @@ from werkzeug.security import generate_password_hash
 DATABASE = "users.db"
 
 
+# --- Connect to DB ---
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
 
 
+# -- Define DATABASE --
 def init_db():
     conn = get_db_connection()
 
