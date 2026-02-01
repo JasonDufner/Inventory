@@ -20,7 +20,7 @@ window.updateItem = async (id, field, value) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id, field, value: value.toString().trim() })
     });
-    if (!res.ok){
+    if (!res.ok) {
         const data = await res.json();
         alert("FEHLER: " + data.error);
         location.reload(); // sets name to old 
@@ -33,7 +33,7 @@ window.checkAndUpdateQty = async (id, input) => {
         val = 1;
         input.value = 1;
     }
-    
+
     await updateItem(id, 'anzahl', val);
     await loadInventory();
 };
@@ -119,28 +119,38 @@ function addRowToUI(item) {
 
 
     tr.innerHTML = `
-        <td>${window.canEdit ? renderGroupSelect(item.id, item.gruppe) : item.gruppe}</td>
-        <td ${editAttr} onblur="updateItem(${item.id}, 'name_id', this.innerText)">${item.name_id}</td>
-        <td ${editAttr} onblur="updateItem(${item.id}, 'lagerort', this.innerText)">${item.lagerort}</td>
-        <td>
+        <td class="px-6 py-4">${window.canEdit ? renderGroupSelect(item.id, item.gruppe) : item.gruppe}</td>
+        <td class="px-6 py-4 font-medium" ${editAttr} onblur="updateItem(${item.id}, 'name_id', this.innerText)">${item.name_id}</td>
+        <td class="px-6 py-4 font-medium" ${editAttr} onblur="updateItem(${item.id}, 'lagerort', this.innerText)">${item.lagerort}</td>
+        <td class="px-6 py-4">
             ${window.canEdit ? `
-                <div class="number-wrapper">
-                    <button style="color: blue;" class="qty-btn" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'))">-</button>
-                    <input type="number" 
+                <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-md w-max bg-slate-50 dark:bg-slate-800">
+                    <button class="px-2 py-1 text-blue-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'))">-</button>
+                    <input class="w-10 text-center bg-transparent border-none focus:ring-0 text-sm font-medium"
+                        type="number" 
                         value="${item.anzahl || 0}" 
                         min="1" 
                         class="custom-number-input"
                         onchange="checkAndUpdateQty(${item.id}, this)">
-                    <button style="color: red;" class="qty-btn" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'))">+</button>
+                    <button class="px-2 py-1 text-red-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'))">+</button>
                 </div>` :
             `<span>${item.anzahl}</span>`
         }
         </td>
-        <td style="background: var(--input-bg); color: var(--text-main);">${item.aktuell}</td>
-        <td ${editAttr} onblur="updateItem(${item.id}, 'info', this.innerText)">${item.info}</td>
-        <td class="action-cell">
-            <button class="action-icon" onclick="openPdfModal(${item.id}, '${item.name_id}')" title="Anleitungen">📋</button>
-            ${window.canEdit ? `<button class="del-icon" onclick="deleteItem(${item.id})">🗑</button>` : ''}
+        <td class="px-6 py-4 font-semibold text-primary">${item.aktuell}</td>
+        <td class="px-6 py-4 text-slate-500 dark:text-slate-400" ${editAttr} onblur="updateItem(${item.id}, 'info', this.innerText)">${item.info}</td>
+        <td class="px-6 py-4 text-right">
+            <div class="flex justify-end gap-2">
+                <button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-primary transition-colors"
+                    onclick="openPdfModal(${item.id}, '${item.name_id}')" title="Anleitungen">
+                    <span class="material-icons-outlined text-sm">edit_note</span>
+                    </button>
+                ${window.canEdit ? `
+                <button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-slate-400 hover:text-red-500 transition-colors"
+                    onclick="deleteItem(${item.id})">
+                    <span class="material-icons-outlined text-sm">delete</span>
+                </button>` : ''}
+            </div>
         </td>
     `;
     tbody.appendChild(tr);
@@ -199,8 +209,19 @@ async function loadPdfList() {
         const div = document.createElement("div");
         div.className = "pdf-entry";
         div.innerHTML = `
-            <span style="cursor:pointer; color:#007bff;" onclick="window.open('/${p.filepath}', '_blank')">📄 ${p.filename}</span>
-            ${window.canEdit ? `<button class="del-icon" onclick="deletePdf(${p.id})">🗑</button>` : ''}
+            <div
+                class="flex items-center justify-between bg-blue-100/80 dark:bg-[#a5c2f9] p-2 pl-3 rounded-lg group/item transition-all border border-blue-200 dark:border-blue-300/30">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <span
+                        class="material-symbols-outlined text-slate-600 dark:text-slate-700 text-xl flex-shrink-0">description</span>
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-800 truncate" onclick="window.open('/${p.filepath}', '_blank')">${p.filename}</span>
+                ${window.canEdit ? `
+                </div>
+                <button class="p-1 hover:bg-blue-200/50 dark:hover:bg-blue-400/30 rounded transition-colors text-slate-500 dark:text-slate-600"
+                    onclick="deletePdf(${p.id})">
+                    <span class="material-symbols-outlined text-lg">delete</span>
+                </button>` : ''}
+            </div>
         `;
         list.appendChild(div);
     });
