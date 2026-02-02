@@ -35,8 +35,9 @@ async function loadEvents() {
 
 
         tr.innerHTML = `
-            <td>
+            <td class="px-6 py-4 text-sm whitespace-nowrap">
                 <input type="date" 
+                    class="font-medium text-slate-900 dark:text-slate-200"
                     value="${evt.datum}" 
                     class="date-picker-input" 
                     onchange="updateEvent(${evt.id}, 'datum', this.value)">
