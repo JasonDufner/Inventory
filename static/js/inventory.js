@@ -126,8 +126,7 @@ function addRowToUI(item) {
             ${window.canEdit ? `
                 <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-md w-max bg-slate-50 dark:bg-slate-800">
                     <button class="px-2 py-1 text-blue-500 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'))">-</button>
-                    <input class="w-10 text-center bg-transparent border-none focus:ring-0 text-sm font-medium"
-                        type="number" 
+                    <input class="w-10 text-center bg-transparent border-none focus:ring-0 text-sm font-medium"   
                         value="${item.anzahl || 0}" 
                         min="1" 
                         class="custom-number-input"
